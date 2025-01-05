@@ -1,3 +1,4 @@
+using AspNetCoreRateLimit;
 using URLShortener;
 using URLShortener.Middlewares;
 
@@ -13,6 +14,8 @@ builder.Services.AddURLService();
 
 // Add your database context here
 builder.Services.AddTransient<URLShortenerContext>();
+
+builder.Services.AddRateLimitServiceConfiguration();
 
 var app = builder.Build();
 
@@ -30,5 +33,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseIpRateLimiting();
 
 app.Run();

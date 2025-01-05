@@ -12,8 +12,8 @@ namespace URLShortener.Controllers
         private readonly IURLService _urlService;
 
         /*
-        * The format for cache dictionary is OriginalURL, ShortenedURL
-        * So the OriginalURL becomes the key
+        * The format for cache dictionary is ShortenedURL, OriginalURL
+        * So the ShortenedURL becomes the key
         */
         private static Dictionary<string, string> _cache = [];
         private readonly string _baseURL;
@@ -26,7 +26,7 @@ namespace URLShortener.Controllers
         }
 
         [HttpPost]
-        [Route("[controller]/Shorten")]
+        [Route("Link/Shorten")]
         public async Task<IResult> Shorten(string OriginalURL)
         {
 
