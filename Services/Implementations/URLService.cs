@@ -71,5 +71,11 @@ namespace URLShortener.Services.Implementations
             getLongURL.AccessCount++;
             return getLongURL.LongURL;
         }
+    
+        public async Task<long> GetAccessCount(string shortCode)
+        {
+            var getAccessCount = await _context.ShortenedURLNanoIds.FirstOrDefaultAsync(x => x.Id == shortCode);
+            return getAccessCount == null ? 0 : getAccessCount.AccessCount;
+        }
     }
 }

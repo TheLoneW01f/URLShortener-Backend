@@ -27,7 +27,7 @@ namespace URLShortener.Controllers
 
         [HttpPost]
         [Route("Link/Shorten")]
-        public async Task<IResult> Shorten(string OriginalURL)
+        public async Task<IResult> Shorten([FromBody]string OriginalURL)
         {
 
             if (Uri.TryCreate(OriginalURL, UriKind.Absolute, out _))
@@ -58,14 +58,21 @@ namespace URLShortener.Controllers
             {
                 var LongUrlRetrieve = _cache.GetValueOrDefault(shortURL);
                 await _urlService.IncrementAccessCount(shortCode);
-                return Results.Redirect(LongUrlRetrieve, true);
+                return Results.Redirect(LongUrlRetrieve);
             }
             else
             {
                 var LongURL = await _urlService.GetLongURLAsync(shortCode);
                 _cache.Add(shortURL, LongURL);
-                return Results.Redirect(LongURL);
+                return Results.Redirect(LongURL, false, true);
             }
+        }
+
+        [HttpGet]
+        [Route("/{shortCode}/GetVisitCount")]
+        public async Task<IResult> GetVisitCount(string shortCode)
+        {
+             return Results.Ok(await _urlService.GetAccessCount(shortCode)) ;
         }
     }
 }

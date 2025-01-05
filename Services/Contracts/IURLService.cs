@@ -5,5 +5,6 @@
         Task<string> GenerateShortCodeAsync(string OriginalURL);
         Task<string> GetLongURLAsync(string shortCode);
         Task IncrementAccessCount(string shortCode);
+        Task<long> GetAccessCount(string shortCode);
     }
 }
